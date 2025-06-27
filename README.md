@@ -31,6 +31,6 @@ Returns a random edge set with `V` vertices and `N` edges.
 Returns a list of graphs with `V` vertices and `N` edges (if specified) that have nonzero regularity offset.
 
 ## Yunli
-A sword hunter from the Xianzhou Zhuming and "the Flaming Heart" General Huaiyan's darling granddaughter. Frank and straightforward.
-She has learned swordplay and forging from Huaiyan since she was young, and thus is the second-youngest prodigy swordmaster of the Flamewheel Octet.
+A sword hunter from the Xianzhou Zhuming and "the Flaming Heart" General Huaiyan's darling granddaughter. Frank and straightforward.\
+She has learned swordplay and forging from Huaiyan since she was young, and thus is the second-youngest prodigy swordmaster of the Flamewheel Octet.\
 Fueled by an intense loathing for the cursed swords that emerged from the Zhuming, she vowed to "hunt down and wipe out all cursed swords."
