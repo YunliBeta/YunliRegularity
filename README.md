@@ -15,7 +15,7 @@ Computes the regularity offset of a graph, traversing through all possible degre
   - `E`: The edge set. A list of two-integer lists. The integers must be a consecutive range of integers starting from `0`. 
   - `N`: The maximum total degrees added to the vertices.
   - `L`: A subset of the vertices to add degrees to. Defaults to `{}`, which causes degrees to be added to all vertices.
-  - `C`: A partition of the vertex set. If given, checks whether the regularity offset is equal to the minimum degree addition computed from this partition.
+  - `C`: A tropical polynomial.
 - **Star** `st(L)`\
 Returns the edge set of a star graph.
   - `L`: A list of integers consisting of the lengths of each limb of the star.
@@ -30,7 +30,7 @@ Returns a random edge set with `V` vertices and `N` edges.
 - **Offset Graph** `og(V, N)` `og(V)`\
 Returns a list of graphs with `V` vertices and `N` edges (if specified) that have nonzero regularity offset.
 
-## Yunli
-A sword hunter from the Xianzhou Zhuming and "the Flaming Heart" General Huaiyan's darling granddaughter. Frank and straightforward.\
-She has learned swordplay and forging from Huaiyan since she was young, and thus is the second-youngest prodigy swordmaster of the Flamewheel Octet.\
-Fueled by an intense loathing for the cursed swords that emerged from the Zhuming, she vowed to "hunt down and wipe out all cursed swords."
+## 云璃
+仙舟「朱明」的猎剑士，备受「烛渊将军」怀炎宠爱的孙女，性格直率。\
+从小跟随怀炎学习剑艺与锻艺，乃「焰轮八叶」中次年幼的天才剑士。\
+对朱明流出的魔剑深恶痛绝，立誓要「搜猎魔剑，尽数断绝」。"

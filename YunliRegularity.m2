@@ -69,6 +69,34 @@ regularityOffset = (E, L) -> (
 
 );
 
+tropicalFunction = (C) -> (
+
+    inputs -> (
+
+        expressionList := {};
+
+        for term in C do (
+            if (#term == 1) then (
+                temp := 0;
+                for i in term#0 do (
+                    temp += inputs#i
+                );
+                expressionList = append(expressionList, temp)
+            ) else (
+                temp := 0;
+                for i in term#1 do (
+                    temp += inputs#i
+                );
+                expressionList = append(expressionList, temp + term#0)
+            );
+        );
+
+        min(expressionList)
+
+    )
+
+);
+
 showRegularityOffset = (E, N, L, C) -> (
 
     V = #(unique flatten E);
@@ -104,15 +132,8 @@ showRegularityOffset = (E, N, L, C) -> (
             
             regularityOffsetVar := 0;
             if #C > 0 then (
-                checkMinList := {};
-                for vertexGroup in C do (
-                    sum := 0;
-                    for vertex in vertexGroup do (
-                        sum += degreeConfig#vertex
-                    );
-                    checkMinList = append(checkMinList, sum + #vertexGroup - 1)
-                );
-                regularityOffsetVar = baseRegularity + i - regularityDegree(E, degreeConfig) - min(checkMinList);
+                inputFunction = tropicalFunction(C);
+                regularityOffsetVar = baseRegularity + i - regularityDegree(E, degreeConfig) - inputFunction(degreeConfig);
             ) else (
                 regularityOffsetVar = baseRegularity + i - regularityDegree(E, degreeConfig);
             );
@@ -310,6 +331,60 @@ resolutionDegrees = E -> (
         );
         print("");
     );
+
+);
+
+leafGraphMap = E -> (
+
+    V := #(unique flatten E);
+
+    R := QQ[x_0..x_(V - 1), y];
+
+    edgeList := {};
+    for e in E do (
+        edgeList = append(edgeList, {R_(e#0), R_(e#1)});
+    );
+
+    I := edgeIdeal graph(edgeList);
+
+    colonIdeal = I : ideal{x_0*y};
+
+    M := (module R) / colonIdeal;
+    N := (module R) / I;
+
+    f := map(N, M, x_0*y);
+
+    print freeResolution f;
+
+);
+
+duoGraphMap = (E1, E2) -> (
+
+    V1 := #(unique flatten E1);
+    V2 := #(unique flatten E2);
+
+    R := QQ[x_0..x_(V1 - 1), y_0..y_(V2 - 1)];
+
+    edgeList1 := {};
+    for e in E1 do (
+        edgeList1 = append(edgeList1, {R_(e#0), R_(e#1)});
+    );
+    edgeList2 := {};
+    for e in E2 do (
+        edgeList2 = append(edgeList2, {R_(e#0 + V1), R_(e#1 + V1)});
+    );
+
+    I := edgeIdeal graph(edgeList1);
+    J := edgeIdeal graph(edgeList2);
+
+    colonIdeal = (I + J) : ideal{x_0*y_0};
+
+    M := (module R) / colonIdeal;
+    N := (module R) / (I + J);
+
+    f := map(N, M, x_0*y_0);
+
+    print freeResolution f;
 
 );
 
