@@ -334,6 +334,33 @@ resolutionDegrees = E -> (
 
 );
 
+resolutionDegreesSimple = E -> (
+
+    V := #(unique flatten E);
+
+    degList := {};
+
+    for i in 0..(V - 1) do (
+        degList = append(degList, toList(insert(i, 1, (V - 1):0)));
+    );
+
+    R := QQ[x_0..x_(V - 1), Degrees=>degList];
+
+    edgeList := {};
+    for e in E do (
+        edgeList = append(edgeList, {R_(e#0), R_(e#1)});
+    );
+    I = edgeIdeal graph(R, edgeList);
+
+    C := res I;
+    l := length C;
+    for i in 0..l do (
+        << "C_" << i << ": " << degree C_i;
+        print("");
+    );
+
+);
+
 leafGraphMap = E -> (
 
     V := #(unique flatten E);
@@ -415,6 +442,8 @@ og (ZZ) := (V) -> (
 st = L -> Star(L);
 
 rd = E -> resolutionDegrees(E);
+
+rds = E -> resolutionDegreesSimple(E);
 
 saved = {
     {
