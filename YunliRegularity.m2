@@ -1,4 +1,6 @@
 needsPackage "EdgeIdeals";
+needsPackage "SymbolicPowers";
+needsPackage "LocalRings";
 
 createLists = (listLength, listSum) -> (
 
@@ -412,6 +414,30 @@ duoGraphMap = (E1, E2) -> (
     f := map(N, M, x_0*y_0);
 
     print freeResolution f;
+
+);
+
+TSP = E -> (
+
+    V := #(unique flatten E);
+
+    R := QQ[x_0..x_V];
+
+    I := monomialCurveIdeal(R, E);
+
+    J := I^2;
+    K := symbolicPower(I, 2);
+
+    << "Equal in ring: " << (J == K);
+    << "\n";
+
+    M := ideal gens R;
+    RM := R_M; 
+
+    JM := J ** RM;
+    KM := K ** RM;
+
+    << "Equal in localization: " << (JM == KM);
 
 );
 
