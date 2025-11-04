@@ -1,6 +1,7 @@
 needsPackage "EdgeIdeals";
 needsPackage "SymbolicPowers";
 needsPackage "LocalRings";
+needsPackage "FourTiTwo";
 
 createLists = (listLength, listSum) -> (
 
@@ -431,13 +432,33 @@ TSP = E -> (
     << "Equal in ring: " << (J == K);
     << "\n";
 
-    M := ideal gens R;
+    M := ideal {x_0..x_V};
     RM := R_M; 
 
     JM := J ** RM;
     KM := K ** RM;
 
     << "Equal in localization: " << (JM == KM);
+
+);
+
+tg = (A, B) -> (
+
+    L := {};
+    for a in A do (
+        for b in B do (
+            if (a + b != 0) then L = append(L, {a, b});
+        );
+    );
+
+    M = transpose matrix L;
+
+    print("");
+    print(M);
+    print("");
+    (err, output) := capture("toricGroebner(M)");
+    output = replace(" 0", "  ", output);
+    print(output);
 
 );
 
