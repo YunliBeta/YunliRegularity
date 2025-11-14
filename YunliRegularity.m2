@@ -492,10 +492,23 @@ mp = L -> (
 
 mmp = L -> (
 
-    R := QQ[vars(53..(52 + #L))];
+    varList = {};
+    for point in L do (
+        varList = append(varList, getSymbol concatenate ("x", toString(point#0), toString(point#1)));
+    );
+    varList = append(varList, getSymbol "z");
+
+    R := QQ[varList];
     
-    I := toricGroebner(transpose matrix L, R);
-    --I := trim homogenize(I0, x0);
+    I0 := toricGroebner(transpose matrix L, R);
+    
+    genList := {};
+    for i in (entries mingens I0)#0 do (
+        genList = append(genList, homogenize(i, z));
+        --print(homogenize(i, z));
+    );
+    
+    I := ideal genList;
     --print(I);
     testPower(I);
 
