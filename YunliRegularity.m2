@@ -442,23 +442,62 @@ TSP = E -> (
 
 );
 
-tg = (A, B) -> (
+testPower = I -> (
 
-    L := {};
-    for a in A do (
-        for b in B do (
-            if (a + b != 0) then L = append(L, {a, b});
+    print(I);
+    R := ring I;
+
+    for i in entries mingens I do (
+        for j in i do (
+            for k in degree j do (
+                if k > 2 then (
+                    print("\nNot quadratically generated");
+                    return
+                );
+            );
         );
     );
 
-    M = transpose matrix L;
+    J := I^2;
+    K := symbolicPower(I, 2);
 
-    print("");
-    print(M);
-    print("");
-    (err, output) := capture("toricGroebner(M)");
-    output = replace(" 0", "  ", output);
-    print(output);
+    a := hilbertSeries(R/J, Order => 5);
+    b := hilbertSeries(R/K, Order => 5);
+    print(a);
+    print(b);
+
+    T = (gens ring a)#0;
+    a1 := coefficients(a, Monomials => { T^4 });
+    b1 := coefficients(b, Monomials => { T^4 });
+    if (a1 == b1) then (
+        print("\nEqual");
+    ) else (
+        print("\nNot Equal");
+    );
+
+);
+
+mp = L -> (
+
+    varList := { x0 };
+    for l in L do varList = append(varList, vars(52 + l));
+
+    R := QQ[varList];
+
+    I := monomialCurveIdeal(R, L);
+    --print(I);
+    testPower(I);
+
+);
+
+mmp = L -> (
+
+    R := QQ[vars(53..(52 + #L))];
+    
+    I := toricGroebner(transpose matrix L, R);
+    --I := trim homogenize(I0, x0);
+    --print(I);
+    testPower(I);
 
 );
 
