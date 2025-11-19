@@ -444,7 +444,7 @@ TSP = E -> (
 
 testPower = I -> (
 
-    print(I);
+    --print(I);
     R := ring I;
 
     for i in entries mingens I do (
@@ -452,7 +452,7 @@ testPower = I -> (
             for k in degree j do (
                 if k > 2 then (
                     print("\nNot quadratically generated");
-                    return
+                    return {}
                 );
             );
         );
@@ -463,8 +463,6 @@ testPower = I -> (
 
     a := hilbertSeries(R/J, Order => 5);
     b := hilbertSeries(R/K, Order => 5);
-    print(a);
-    print(b);
 
     T = (gens ring a)#0;
     a1 := coefficients(a, Monomials => { T^4 });
@@ -474,6 +472,23 @@ testPower = I -> (
     ) else (
         print("\nNot Equal");
     );
+
+    polynomialList := first entries mingens(K/J);
+    retList := {};
+    for p in polynomialList do (
+        if ((degree p)#0 == 3) then (
+            for var in gens R do (
+                if (var * p) % J != 0 then (
+                    retList = append(retList, var * p);
+                );
+            );
+        );
+        if ((degree p)#0 == 4) then (
+            retList = append(retList, p);
+        );
+    );
+
+    return {I, J, K, a, b, retList}
 
 );
 
@@ -485,8 +500,8 @@ mp = L -> (
     R := QQ[varList];
 
     I := monomialCurveIdeal(R, L);
-    --print(I);
-    testPower(I);
+
+    testPower(I)
 
 );
 
@@ -502,15 +517,9 @@ mmp = L -> (
     
     I0 := toricGroebner(transpose matrix L, R);
     
-    -*genList := {};
-    for i in (entries mingens I0)#0 do (
-        genList = append(genList, homogenize(i, z));
-        --print(homogenize(i, z));
-    );*-
-    
     I := trim ideal homogenize(I0, z);
-    --print(I);
-    testPower(I);
+
+    testPower(I)
 
 );
 
