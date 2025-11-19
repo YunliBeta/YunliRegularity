@@ -502,13 +502,13 @@ mmp = L -> (
     
     I0 := toricGroebner(transpose matrix L, R);
     
-    genList := {};
+    -*genList := {};
     for i in (entries mingens I0)#0 do (
         genList = append(genList, homogenize(i, z));
         --print(homogenize(i, z));
-    );
+    );*-
     
-    I := ideal genList;
+    I := trim ideal homogenize(I0, z);
     --print(I);
     testPower(I);
 
